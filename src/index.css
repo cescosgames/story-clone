@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --color-vintage-blue: #01204E;
+  --color-vintage-teal: #028391;
+  --color-vintage-tan: #F6DCAC;
+  --color-vintage-mango: #FAA968;
+  --color-vintage-orange: #F85525;
+  --color-vintage-white: #F5F5F5;
+  --color-vintage-denim: #191C27;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-vintage-tan);
+  color: var(--color-vintage-denim);
+}
+
+/* utility classes */
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Webkit browsers */
+}
+
+/* this is for fading r */
+.fade {
+  position: relative;
+  mask-image: linear-gradient(90deg, #000 80%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, #000 80%, transparent);
+}
+.fade > * {
+  mask-image: inherit;
+  -webkit-mask-image: inherit;
+}
