@@ -1,34 +1,31 @@
 import React from 'react'
-import { useState } from 'react';
+import { isModalOpen } from '../atoms';
+import { useAtom } from 'jotai';
+import demoPic from '../images/demoPic.jpg';
 
-const ImageModal = () => {
+const ImageModal = ({ image }) => {
+    // our global atom for modal being open
+    const [modalOpen, setModalOpen] = useAtom(isModalOpen);
 
-    // this is just a placeholder, just messing around
-
-    const [isOpen, setIsOpen] = useState(true);
-
-  return (
-    <>
-    {isOpen ?
-        <div
-            className="absolute inset-0 bg-black bg-opacity-80 flex items-center justify-center z-10 rounded-2xl"
-            onClick={() => console.log('next story')}
-        >
+    return (
+        <>
+        {modalOpen ?
             <div
-            className="bg-white p-4 rounded shadow-lg w-3/4 max-w-lg"
+                className="absolute inset-0 bg-opacity-80 flex items-center justify-center z-10 rounded-2xl story-pop"
+                onClick={() => null}
             >
-            <h2 className="text-xl font-bold mb-4">Story Content</h2>
-            <p>This is the story modal content.</p>
-            <button
-                onClick={() => setIsOpen(false)}
-                className="absolute top-0 right-0 mx-5 my-10 w-10 h-10 text-vintage-white rounded cursor-pointer"
-            >
-                X
-            </button>
+                <div className="bg-vintage-denim/10 rounded-2xl w-full h-full p-5">
+                    <img src={image} alt='404' className='rounded-sm w-full h-full object-cover'/>
+                    <button
+                        onClick={() => setModalOpen(false)}
+                        className="absolute top-0 right-0 mx-10 my-10 w-10 h-10 opacity-50 text-vintage-white bg-vintage-orange rounded-full cursor-pointer"
+                    >
+                        X
+                    </button>
+                </div>
             </div>
-        </div>
-        : ''}
-    </>
+            : ''}
+        </>
   )
 }
 
