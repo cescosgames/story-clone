@@ -46,11 +46,11 @@ body {
 @keyframes storypop {
   0% {
     scale: 0;
-    transform: translateY(-50%);
+    /* transform: translateY(-50%); */
   }
   100% {
     scale: 1;
-    transform: translateY(0);
+    /* transform: translateY(0); */
   }
 }
 

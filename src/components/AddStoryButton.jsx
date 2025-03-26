@@ -9,7 +9,7 @@ const AddStoryButton = ({ addStory }) => {
             className="cursor-pointer h-full w-full text-center flex items-center justify-center"
           >
             {/* something is wrong with my cnetering here but I can't find it, so just doing margin bottom 1 for now */}
-            <p className='mb-1'>+</p>
+            <p className='mb-0.5'>+</p>
         </label>
 
         <input 

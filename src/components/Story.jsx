@@ -7,7 +7,7 @@ const Story = ({ image, openStory, storyID, storyURL, storySeen }) => {
         onClick={() => openStory(storyURL, storyID)}
         className={`cursor-pointer text-md rounded-full border-3 h-10 aspect-square text-vintage-tan flex justify-center items-center ${storySeen ? 'border-vintage-orange' : 'border-vintage-teal'}`}
         >
-        <img src={image} alt='404' className='rounded-full w-full h-full object-cover backdrop-blur-2xl'/>
+        <img src={image} alt='Alt' className='rounded-full w-full h-full object-cover backdrop-blur-2xl'/>
         {/* <p>{`${storyID}`}</p> */}
     </button>
   )

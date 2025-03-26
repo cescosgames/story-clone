@@ -8,4 +8,7 @@ saved in local storage. To save to local storage, we need to convert our url to 
 stories are functioning, sorting properly and opening properly. Next step is going to be...
 <br>
 - handle deletion after time
-- handle moving through stories i.e. story1 -> story2 -> story3
+- moving through stories works when all stories are seen, stories changing index is not working as intended. Need to find out how to progress stories 
+in chronological -> seen order.
+- review handle story seen function
+- how to add multiple, independent loading bars up top

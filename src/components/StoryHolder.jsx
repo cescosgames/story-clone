@@ -8,6 +8,8 @@ import ImageModal from './ImageModal'
 const StoryHolder = ({  }) => {
   // our global atom for the story modal being open or not
   const [modalOpen, setModalOpen] = useAtom(isModalOpen);
+  // our story timer for our modal
+  const [timerTime, setTimerTime] = useState(1); // in seconds (7 seconds for example)
 
   // our array of stories, modified from our add story button
   const [stories, setStories] = useState([]);
@@ -16,6 +18,8 @@ const StoryHolder = ({  }) => {
 
   // our active image, null to start
   const [activeImg, setActiveImg] =useState(null);
+  // our active index
+  const [activeIndex, setActiveIndex] = useState(-1);
 
   // here we load our saved stories to a JS array from local storage IF there are any, otherwise return an emtpy array
   useEffect(() => {
@@ -56,15 +60,30 @@ const StoryHolder = ({  }) => {
 
   // opening our story function passed as prop to our Story components
   const openStory = (image, storyID) => {
-    // console.log(image);
     // mark our story as soon using our handleStorySeen function
     handleStorySeen(storyID);
+
+    // get the index of our story to progress our stories
+    const index = stories.findIndex(story => story.id === storyID);
+    setActiveIndex(index);
 
     // set our active image to pass to our modal
     setActiveImg(image);
     
     // open our modal
     setModalOpen(true);
+  }
+
+  const advanceStory = () => {
+    // check we are in index bounds
+    if(activeIndex + 1 < sortedStories.length) {
+      handleStorySeen(sortedStories[activeIndex + 1].id);
+      setActiveImg(sortedStories[activeIndex + 1].url);
+      setActiveIndex((prevIndex) => prevIndex + 1);
+    } else {
+      // console.log('finished stories');
+      setModalOpen(false);
+    }
   }
 
   // handling our story seen, using map instead of find()
@@ -85,11 +104,11 @@ const StoryHolder = ({  }) => {
         {/* our stories will propagate here */}
         <div className='flex overflow-scroll scrollbar-hidden gap-2 w-full'>
             {sortedStories.map((story) => (
-              <Story key={story.id} openStory={openStory} image={story.url} storyURL={story.url} storyID={story.id} storySeen={story.alreadySeen}/>
+              <Story key={story.id} openStory={openStory} image={story.url} storyURL={story.url} storyID={story.id} storySeen={story.alreadySeen} />
             ))}
         </div>
         {/* our image pop up modal */}
-        <ImageModal image={activeImg}/>
+        <ImageModal image={activeImg} timerTime={timerTime} nextStory={advanceStory}/>
     </div>
   )
 }
