@@ -9,17 +9,21 @@ const StoryHolder = ({  }) => {
   // our global atom for the story modal being open or not
   const [modalOpen, setModalOpen] = useAtom(isModalOpen);
   // our story timer for our modal
-  const [timerTime, setTimerTime] = useState(1); // in seconds (7 seconds for example)
+  const [timerTime, setTimerTime] = useState(1); // in seconds
 
   // our array of stories, modified from our add story button
   const [stories, setStories] = useState([]);
   // our sorted stories array - this gets re-rendered everytime our stories array changes
   const sortedStories = [...stories].sort((a, b) => a.alreadySeen - b.alreadySeen);
+  // our temporary session story array for proper sorting each story watching session
+  const [tempStories, setTempStories] = useState([]);
 
   // our active image, null to start
   const [activeImg, setActiveImg] =useState(null);
   // our active index
   const [activeIndex, setActiveIndex] = useState(-1);
+  // our active time-stamp, similar to image
+  const [activeTimeStamp, setActiveTimeStamp] = useState(null);
 
   // here we load our saved stories to a JS array from local storage IF there are any, otherwise return an emtpy array
   useEffect(() => {
@@ -32,6 +36,7 @@ const StoryHolder = ({  }) => {
   // whenever we update our stories array, set our stories array and save it to local storage in json format
   useEffect(() => {
     localStorage.setItem("stories", JSON.stringify(stories));
+
   }, [stories]);
 
 
@@ -59,7 +64,10 @@ const StoryHolder = ({  }) => {
   };
 
   // opening our story function passed as prop to our Story components
-  const openStory = (image, storyID) => {
+  const openStory = (image, storyID, timeStamp) => {
+    // get our current session story list for proper sorting (unseen -> seen, newest -> oldest)
+    setTempStories([...sortedStories]);
+
     // mark our story as soon using our handleStorySeen function
     handleStorySeen(storyID);
 
@@ -69,16 +77,22 @@ const StoryHolder = ({  }) => {
 
     // set our active image to pass to our modal
     setActiveImg(image);
+
+    // set our timestamp
+    setActiveTimeStamp(timeStamp);
     
     // open our modal
     setModalOpen(true);
   }
 
   const advanceStory = () => {
+    console.log(activeIndex);
     // check we are in index bounds
-    if(activeIndex + 1 < sortedStories.length) {
-      handleStorySeen(sortedStories[activeIndex + 1].id);
-      setActiveImg(sortedStories[activeIndex + 1].url);
+    if(activeIndex + 1 < tempStories.length) {
+      // this is basically the same as openStory, just doesn't update the session list or open the modal
+      handleStorySeen(tempStories[activeIndex + 1].id);
+      setActiveImg(tempStories[activeIndex + 1].url);
+      setActiveTimeStamp(tempStories[activeIndex + 1].uploadTime)
       setActiveIndex((prevIndex) => prevIndex + 1);
     } else {
       // console.log('finished stories');
@@ -91,7 +105,9 @@ const StoryHolder = ({  }) => {
     // take our previous stories, map over them, if our ID matches, set it's already seen to true otherwise just return the story.
     setStories((prevStories) =>
       prevStories.map((story) =>
-        // here we are using the spread to copy the array and modify the story inside the array. If we did direct mutation, react wouldn't recognize the changes
+        // if our story id matches our id, we use the spread operator to copy the existing properties of that id object, and create a new one
+        // with the alreadySeen variable set to true. So we copy all the existing properties and change the already seen
+        // if the id doesn't match, just return the same object
         story.id === id ? { ...story, alreadySeen: true } : story
       )
     );
@@ -104,11 +120,11 @@ const StoryHolder = ({  }) => {
         {/* our stories will propagate here */}
         <div className='flex overflow-scroll scrollbar-hidden gap-2 w-full'>
             {sortedStories.map((story) => (
-              <Story key={story.id} openStory={openStory} image={story.url} storyURL={story.url} storyID={story.id} storySeen={story.alreadySeen} />
+              <Story key={story.id} openStory={openStory} image={story.url} storyURL={story.url} storyID={story.id} storySeen={story.alreadySeen} storyDate={story.uploadTime} />
             ))}
         </div>
         {/* our image pop up modal */}
-        <ImageModal image={activeImg} timerTime={timerTime} nextStory={advanceStory}/>
+        <ImageModal image={activeImg} timerTime={timerTime} nextStory={advanceStory} uploadTime={activeTimeStamp} numStories={sortedStories.length} stories={tempStories}/>
     </div>
   )
 }
