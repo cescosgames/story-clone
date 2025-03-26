@@ -13,10 +13,6 @@ const StoryHolder = ({  }) => {
 
   // our array of stories, modified from our add story button
   const [stories, setStories] = useState([]);
-  // our sorted stories array - this gets re-rendered everytime our stories array changes
-  const sortedStories = [...stories].sort((a, b) => a.alreadySeen - b.alreadySeen);
-  // our temporary session story array for proper sorting each story watching session
-  const [tempStories, setTempStories] = useState([]);
 
   // our active image, null to start
   const [activeImg, setActiveImg] =useState(null);
@@ -56,8 +52,17 @@ const StoryHolder = ({  }) => {
         uploadTime: Date.now(), // I guess I could use the ID... well we'll figure it out later
         alreadySeen: false, // to organize stories
       };
-      // then we copy the existing stories in the array [...] and append our newStory to the array in our setStories update
-      setStories([...stories, newStory]);
+      
+      // for proper sorting, create 2 arrays to handle seen and unseen stories
+      const unseenStories = stories.filter(story => !story.alreadySeen);
+      const seenStories = stories.filter(story => story.alreadySeen);
+      // add the new story to the unseen stories array
+      const udpatedUnseenStories = [...unseenStories, newStory];
+      // combine the 2 arrays now!
+      const updatedStories = [...udpatedUnseenStories, ...seenStories];
+      // then set our stories array
+      setStories(updatedStories);
+
     } else {
       alert('File Not Valid, Please Try Again');
     }
@@ -65,15 +70,12 @@ const StoryHolder = ({  }) => {
 
   // opening our story function passed as prop to our Story components
   const openStory = (image, storyID, timeStamp) => {
-    // get our current session story list for proper sorting (unseen -> seen, newest -> oldest)
-    setTempStories([...sortedStories]);
-
-    // mark our story as soon using our handleStorySeen function
-    handleStorySeen(storyID);
-
     // get the index of our story to progress our stories
     const index = stories.findIndex(story => story.id === storyID);
     setActiveIndex(index);
+
+    // mark our story as soon using our handleStorySeen function THIS MUTATES THE ARRAY
+    handleStorySeen(storyID);
 
     // set our active image to pass to our modal
     setActiveImg(image);
@@ -86,17 +88,35 @@ const StoryHolder = ({  }) => {
   }
 
   const advanceStory = () => {
-    console.log(activeIndex);
     // check we are in index bounds
-    if(activeIndex + 1 < tempStories.length) {
+    if(activeIndex + 1 < stories.length) {
       // this is basically the same as openStory, just doesn't update the session list or open the modal
-      handleStorySeen(tempStories[activeIndex + 1].id);
-      setActiveImg(tempStories[activeIndex + 1].url);
-      setActiveTimeStamp(tempStories[activeIndex + 1].uploadTime)
+      handleStorySeen(stories[activeIndex + 1].id);
+      setActiveImg(stories[activeIndex + 1].url);
+      setActiveTimeStamp(stories[activeIndex + 1].uploadTime)
       setActiveIndex((prevIndex) => prevIndex + 1);
+
+      return activeIndex + 1;
     } else {
       // console.log('finished stories');
       setModalOpen(false);
+    }
+  }
+
+  const previousStory = () => {
+    // check we are in index bounds
+    // console.log(activeIndex);
+    if(activeIndex - 1 > -1) {
+      // this is basically the same as openStory, just doesn't update the session list or open the modal
+      handleStorySeen(stories[activeIndex - 1].id);
+      setActiveImg(stories[activeIndex - 1].url);
+      setActiveTimeStamp(stories[activeIndex - 1].uploadTime)
+      setActiveIndex((prevIndex) => prevIndex - 1);
+
+      return activeIndex - 1;
+    } else {
+      // console.log('finished stories');
+      // setModalOpen(false);
     }
   }
 
@@ -119,12 +139,12 @@ const StoryHolder = ({  }) => {
         <AddStoryButton addStory={handleImageUpload}/>
         {/* our stories will propagate here */}
         <div className='flex overflow-scroll scrollbar-hidden gap-2 w-full'>
-            {sortedStories.map((story) => (
+            {stories.map((story) => (
               <Story key={story.id} openStory={openStory} image={story.url} storyURL={story.url} storyID={story.id} storySeen={story.alreadySeen} storyDate={story.uploadTime} />
             ))}
         </div>
         {/* our image pop up modal */}
-        <ImageModal image={activeImg} timerTime={timerTime} nextStory={advanceStory} uploadTime={activeTimeStamp} numStories={sortedStories.length} stories={tempStories}/>
+        <ImageModal image={activeImg} timerTime={timerTime} nextStory={advanceStory} prevStory={previousStory} uploadTime={activeTimeStamp} numStories={stories.length} stories={stories} activeIndex={activeIndex}/>
     </div>
   )
 }
