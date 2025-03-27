@@ -53,13 +53,15 @@ const StoryHolder = ({  }) => {
         alreadySeen: false, // to organize stories
       };
       
+      console.log('sorting stories on upload');
+      
       // for proper sorting, create 2 arrays to handle seen and unseen stories
       const unseenStories = stories.filter(story => !story.alreadySeen);
       const seenStories = stories.filter(story => story.alreadySeen);
       // add the new story to the unseen stories array
-      const udpatedUnseenStories = [...unseenStories, newStory];
+      const updatedUnseenStories = [...unseenStories, newStory];
       // combine the 2 arrays now!
-      const updatedStories = [...udpatedUnseenStories, ...seenStories];
+      const updatedStories = [...updatedUnseenStories, ...seenStories];
       // then set our stories array
       setStories(updatedStories);
 
@@ -67,6 +69,18 @@ const StoryHolder = ({  }) => {
       alert('File Not Valid, Please Try Again');
     }
   };
+
+  // need a use effect to re-sort our stories not JUST on story upload, but on open story as well
+  const sortOnCloseModal = () => {
+    console.log('sorting stories on story viewing');
+    // for proper sorting, create 2 arrays to handle seen and unseen stories
+    const unseenStories = stories.filter(story => !story.alreadySeen);
+    const seenStories = stories.filter(story => story.alreadySeen);
+    // combine the 2 arrays now!
+    const updatedStories = [...unseenStories, ...seenStories];
+    // then set our stories array
+    setStories(updatedStories);
+  }
 
   // opening our story function passed as prop to our Story components
   const openStory = (image, storyID, timeStamp) => {
@@ -144,7 +158,7 @@ const StoryHolder = ({  }) => {
             ))}
         </div>
         {/* our image pop up modal */}
-        <ImageModal image={activeImg} timerTime={timerTime} nextStory={advanceStory} prevStory={previousStory} uploadTime={activeTimeStamp} numStories={stories.length} stories={stories} activeIndex={activeIndex}/>
+        <ImageModal image={activeImg} timerTime={timerTime} nextStory={advanceStory} prevStory={previousStory} uploadTime={activeTimeStamp} numStories={stories.length} stories={stories} activeIndex={activeIndex} sortStoryOnClose={sortOnCloseModal}/>
     </div>
   )
 }

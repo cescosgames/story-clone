@@ -5,7 +5,7 @@ import ProgressBar from './ProgressBar';
 import { DateTime } from 'luxon';
 import demoPic from '../images/demoPic.jpg';
 
-const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numStories, stories, activeIndex }) => {
+const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numStories, stories, activeIndex, sortStoryOnClose }) => {
     // our global atom for modal being open
     const [modalOpen, setModalOpen] = useAtom(isModalOpen);
 
@@ -50,9 +50,7 @@ const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numSto
             setProgress(0);
             nextStory();
         } else {
-            setModalOpen(false);
-            setTimer(timerTime);
-            setProgress(0);
+            closeModal();
         }
 
         // always use clearTimeout to avoid memory leaks
@@ -64,6 +62,7 @@ const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numSto
         setModalOpen(false);
         setTimer(timerTime);
         setProgress(0);
+        sortStoryOnClose();
     }
 
     // useEffect for when the modal opens to reset all stories progress
@@ -143,10 +142,10 @@ const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numSto
                     <img src={image} alt='404' className='rounded-2xl w-full h-full object-cover'/>
                     <button
                         onClick={() => closeModal()}
-                        className="text-3xl absolute top-1 right-0 mx-1 w-8 h-8 text-vintage-white rounded-md cursor-pointer"
+                        className="text-3xl absolute top-1 right-0 mx-1 w-10 h-10 text-vintage-white rounded-md cursor-pointer"
                     >
                         {/* this is an x from hero-icons */}
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                         </svg>
 
@@ -158,13 +157,25 @@ const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numSto
                     {/* left/right chevron holder */}
                     <div className='absolute h-[80%] w-full top-10 rounded-2xl'>
                         {/* left chevron from heroicons */}
-                        <div className='absolute top-[50%] text-vintage-white opacity-50' onClick={() => prevStory()}>
+                        <div className='absolute bottom-[0] text-vintage-white opacity-50 h-full flex justify-start items-center w-[50%]' 
+                            onClick={() => {
+                                prevStory();
+                                setProgress(0);
+                                setTimer(timerTime);
+                            }}
+                            >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                             </svg>
                         </div>
                         {/* right chevron from heroicons */}
-                        <div className='absolute top-[50%] right-0 text-vintage-white opacity-50' onClick={() => nextStory()}>
+                        <div className='absolute bottom-[0%] right-0 text-vintage-white opacity-50 h-full flex justify-end items-center w-[50%]' 
+                            onClick={() => {
+                                nextStory();
+                                setProgress(0);
+                                setTimer(timerTime);
+                                }}
+                                >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                             </svg>
