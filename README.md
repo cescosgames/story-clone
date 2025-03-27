@@ -1,13 +1,12 @@
 # Work In Progress Notes
 
 ## End of project changes
-- In the story holder, when saving our stories array (handleImageUpload function), we are using a temporary URL. This does not get 
-saved in local storage. To save to local storage, we need to convert our url to base64 string. 
-- need to constrain image dimensions to 1080x1920px
+- need to constrain image size in order to upload more than 2 images
 
-### current working on...
-- handle deletion after time
-- handle resetting loading bars when manually changing stories
+### notes on issues I won't be able to fix
+- I had to cap the storage at 3.7mb, bummer but not many images can be uploaded in local storage
 
-### issues 
-- none to report at the moment
+### order of importance goal to finish
+- add swipe functionality
+- style visually
+- style animations

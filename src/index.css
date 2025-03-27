@@ -17,8 +17,9 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: var(--color-vintage-denim);
-  color: var(--color-vintage-denim);
+  /* background-color: var(--color-vintage-denim); */
+  background-color: black;
+  color: var(--color-vintage-tan);
 }
 
 /* utility classes */

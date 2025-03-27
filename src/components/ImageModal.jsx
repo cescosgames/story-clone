@@ -5,14 +5,9 @@ import ProgressBar from './ProgressBar';
 import { DateTime } from 'luxon';
 import demoPic from '../images/demoPic.jpg';
 
-const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numStories, stories, activeIndex, sortStoryOnClose }) => {
+const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numStories, stories, activeIndex, sortStoryOnClose, deleteStory }) => {
     // our global atom for modal being open
     const [modalOpen, setModalOpen] = useAtom(isModalOpen);
-
-    // our array of progress states to track each individual progress bar, based off the session stories array
-    const [individualProgress, setIndividualProgress] = React.useState(
-        stories.map(() => 0) // this is creating an array of states all set to 0, so num of stories (say 3) to 0 would be [0,0,0]
-    );
 
     // our timer in seconds to be decreased and our progress in 10ths to increase with timer counting down
     const [timer, setTimer] = useState(timerTime);
@@ -122,16 +117,16 @@ const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numSto
         <>
         {modalOpen ?
             <div
-                className="absolute inset-0 bg-opacity-80 flex items-center justify-center z-10 rounded-2xl story-pop flex-col"
+                className="absolute inset-0 bg-opacity-80 flex items-center justify-center z-100 story-pop flex-col w-full h-screen max-h-screen lg:max-h-[800px] lg:mt-10 sm:max-w-sm"
                 onClick={() => null}
                 onMouseDown={() => setIsPaused(true)}
                 onMouseUp={() => setIsPaused(false)}
             >
                 {/* the image plus close button and loading bars */}
-                <div className="bg-vintage-denim/10 rounded-2xl w-full h-full">
+                <div className="bg-vintage-denim/10 w-full h-full">
                 
                     {/* the progress bar up top - need to find a way to have multiple of these */}
-                    <div className='absolute w-full flex mt-1 gap-0.5 px-3'>
+                    <div className='absolute w-full flex mt-5 gap-0.5 px-3'>
                         {/* map progress bars here from the amount of stories we have using Array.from, which in this case just gives us an undefined for each length */}
                         {Array.from({length: numStories }).map((_, index) => (
                             // set progresses equal to index instead of activeIndex because we need each individual bars index
@@ -139,23 +134,37 @@ const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numSto
                         ))}
                     </div>
 
-                    <img src={image} alt='404' className='rounded-2xl w-full h-full object-cover'/>
+                    <img src={image} alt='404' className='w-full h-full object-cover'/>
                     <button
                         onClick={() => closeModal()}
-                        className="text-3xl absolute top-1 right-0 mx-1 w-10 h-10 text-vintage-white rounded-md cursor-pointer"
+                        className="text-3xl absolute top-10 right-5 mx-1 w-10 h-10 text-vintage-white rounded-md cursor-pointer"
                     >
                         {/* this is an x from hero-icons */}
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-12">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>                        
+                    </button>
+                    {/* our delete button */}
+                    <button
+                        onClick={() => {
+                            closeModal();
+                            // yea it's kinda fucked up but basically the upload time and ID are the same - hope this won't cause any issues lol
+                            deleteStory(uploadTime);
+                        }}
+                        className="text-3xl absolute top-11 right-10 mx-10 w-10 h-10 text-vintage-white rounded-md cursor-pointer"
+                    >
+                        {/* delete from hero-icons */}
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                         </svg>
 
-                        
+
                     </button>
                     {/* time left text */}
-                    <p className='z-10 text-xs absolute top-3 left-5 text-vintage-white'>{convertDate(uploadTime)}</p>
+                    <p className='z-10 text-lg absolute top-12 left-5 text-vintage-white'>{convertDate(uploadTime)}</p>
 
                     {/* left/right chevron holder */}
-                    <div className='absolute h-[80%] w-full top-10 rounded-2xl'>
+                    <div className='absolute h-[80%] w-full top-30 rounded-2xl'>
                         {/* left chevron from heroicons */}
                         <div className='absolute bottom-[0] text-vintage-white opacity-50 h-full flex justify-start items-center w-[50%]' 
                             onClick={() => {
@@ -164,7 +173,7 @@ const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numSto
                                 setTimer(timerTime);
                             }}
                             >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-12">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                             </svg>
                         </div>
@@ -176,7 +185,7 @@ const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numSto
                                 setTimer(timerTime);
                                 }}
                                 >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-12">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                             </svg>
                         </div>

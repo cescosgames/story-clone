@@ -3,13 +3,13 @@ import React, { useState } from 'react'
 const AddStoryButton = ({ addStory }) => {
 
   return (
-    <div className='relative text-md rounded-full border-2 border-dotted h-10 aspect-square text-vintage-tan flex justify-center items-center'>
+    <div className='relative text-md rounded-full border-2 border-dotted h-18 aspect-square text-vintage-tan flex justify-center items-center'>
         <label 
             htmlFor="image-upload"
             className="cursor-pointer h-full w-full text-center flex items-center justify-center"
           >
             {/* something is wrong with my cnetering here but I can't find it, so just doing margin bottom 1 for now */}
-            <p className='mb-0.5'>+</p>
+            <p className='mb-0.5 text-3xl'>+</p>
         </label>
 
         <input 

@@ -3,7 +3,7 @@ import demoPic from '../images/demoPic.jpg';
 
 const BodyDisplay = () => {
   return (
-    <div className='w-full flex justify-center items-center border-2 border-vintage-tan rounded-md h-100 flex-col'>
+    <div className='w-full flex justify-center items-center rounded-md h-[75%] flex-col'>
 
         <h1 className='italic text-vintage-tan'>image would go here</h1>
 
