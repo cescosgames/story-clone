@@ -117,7 +117,7 @@ const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numSto
         <>
         {modalOpen ?
             <div
-                className="absolute inset-0 bg-opacity-80 flex items-center justify-center z-100 story-pop flex-col w-full h-screen max-h-screen lg:max-h-[800px] lg:mt-10 sm:max-w-sm"
+                className="absolute inset-0 bg-opacity-80 flex z-100 story-pop flex-col w-full h-screen max-h-screen lg:max-h-[800px] lg:mt-10 sm:max-w-sm"
                 onClick={() => null}
                 onMouseDown={() => setIsPaused(true)}
                 onMouseUp={() => setIsPaused(false)}

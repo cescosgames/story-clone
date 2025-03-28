@@ -9,7 +9,7 @@ const Phone = () => {
     // centering the whole thing on the screen
     <div className='h-full w-full flex justify-center overflow-hidden'>
         {/* the 'interior' of the phone */}
-        <div className='w-full h-screen max-h-screen lg:max-h-[800px] lg:mt-10 sm:max-w-sm'>
+        <div className='relative w-full h-screen max-h-screen lg:max-h-[800px] lg:mt-10 sm:max-w-sm bg-gray-800 rounded-2xl'>
             <Header />
             <StoryHolder />
             <BodyDisplay />
