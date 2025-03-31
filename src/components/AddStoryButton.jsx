@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 const AddStoryButton = ({ addStory }) => {
 
   return (
-    <div className='relative text-md rounded-full border-2 border-dotted h-18 aspect-square text-vintage-tan flex justify-center items-center'>
+    <div className='relative text-md rounded-full border-2 border-dotted h-18 aspect-square flex justify-center items-center'>
         <label 
             htmlFor="image-upload"
             className="cursor-pointer h-full w-full text-center flex items-center justify-center"

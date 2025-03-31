@@ -9,6 +9,7 @@
   --color-vintage-orange: #F85525;
   --color-vintage-white: #F5F5F5;
   --color-vintage-denim: #191C27;
+  --color-TW-purple100: #E1BEED;
 }
 
 * {
@@ -18,8 +19,9 @@
 body {
   font-family: 'Roboto', sans-serif;
   /* background-color: var(--color-vintage-denim); */
-  background-color: black;
-  color: var(--color-vintage-tan);
+  background-color: #222222;
+  /* color: var(--color-vintage-tan); */
+  color: var(--color-TW-purple100);
 }
 
 /* utility classes */

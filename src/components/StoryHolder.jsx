@@ -276,7 +276,7 @@ const StoryHolder = ({  }) => {
   }
   
   return (
-    <div className='border-b-1 border-vintage-tan px-2 items-center flex gap-2 h-[15%]'>
+    <div className='border-b-1 px-2 items-center flex gap-2 h-[15%]'>
         {/* our add story button here that takes our upload image function as prop */}
         <AddStoryButton addStory={handleImageUpload}/>
         {/* our stories will propagate here */}

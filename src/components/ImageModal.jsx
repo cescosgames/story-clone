@@ -117,13 +117,13 @@ const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numSto
         <>
         {modalOpen ?
             <div
-                className="absolute inset-0 bg-opacity-80 flex z-100 story-pop flex-col w-full h-screen max-h-screen lg:max-h-[800px] lg:mt-10 sm:max-w-sm"
+                className="absolute inset-0 bg-opacity-80 flex z-100 story-pop flex-col w-full h-screen max-h-screen sm:max-h-[800px] sm:max-w-sm"
                 onClick={() => null}
                 onMouseDown={() => setIsPaused(true)}
                 onMouseUp={() => setIsPaused(false)}
             >
                 {/* the image plus close button and loading bars */}
-                <div className="bg-vintage-denim/10 w-full h-full">
+                <div className="w-full h-full bg-black flex sm:rounded-2xl">
                 
                     {/* the progress bar up top - need to find a way to have multiple of these */}
                     <div className='absolute w-full flex mt-5 gap-0.5 px-3'>
@@ -134,7 +134,7 @@ const ImageModal = ({ image, timerTime, nextStory, prevStory, uploadTime, numSto
                         ))}
                     </div>
 
-                    <img src={image} alt='404' className='w-full h-full object-cover'/>
+                    <img src={image} alt='404' className='w-full rounded-2xl object-scale-down'/>
                     <button
                         onClick={() => closeModal()}
                         className="text-3xl absolute top-10 right-5 mx-1 w-10 h-10 text-vintage-white rounded-md cursor-pointer"
