@@ -19,6 +19,7 @@ Live Demo: coming soon!
   - HeroIcons for trash, X, and left/right chevron icons
   - Google Fonts for Roboto font
   - Unsplash for demo pictures
+  - Github Logo from Github
 
 ## Visual Examples
 <br> Desktop Landing Page with uploaded stories <br>

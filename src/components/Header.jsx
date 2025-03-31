@@ -16,7 +16,7 @@ const Header = () => {
         </div>
         {/* right side */}
         <div className='flex justify-center items-center transition hover:text-vintage-tan'>
-            <a href="#">
+            <a href="https://github.com/cescosgames/story-clone" target='_blank'>
               <img src={githubLogoWhite} alt="Github Icon" className='w-8.5 aspect-square transition opacity-50 hover:opacity-100'/>
             </a>
         </div>

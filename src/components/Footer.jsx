@@ -9,7 +9,7 @@ const Footer = () => {
             <p className='text-xs md:block hidden'>|</p>
             <ul className="hidden items-center text-sm font-medium sm:mt-0 md:block hover:text-purple-100 transition">
                 <li>
-                    <a href="#" target='_blank' className="me-4 md:me-6 cursor-pointer" aria-label='link to github project'>Github</a>
+                    <a href="https://github.com/cescosgames/story-clone" target='_blank' className="me-4 md:me-6 cursor-pointer" aria-label='link to github project'>Github</a>
                 </li>
             </ul>
         </footer>
