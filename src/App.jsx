@@ -42,6 +42,7 @@ function App() {
 // B1b1. The progress bar is just that - a basic progress bar, inspired by modern progress bar design
 // B1c. The add story component is similar to story in that it's just a little thumbnail size with an input that only acceps images. Connects to our add story function in storyholder to upload stories 
 // And that should cover the whole little program. Lots of notes throughout that should help show process and thoughts
-// the only functionality missing as of now is swiping
+// -
+// After writing this up, I added a footer and a header that are very straightforward and don't affect project functionality
 
 export default App
