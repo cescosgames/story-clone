@@ -5,7 +5,7 @@ vanish after 24 hours. Stories will be ordered from most recent to oldest and se
 local storage (~5mb), to test uploading lots of stories, use low resolution / low quality images.
 <br>
 <br>
-Live Demo: coming soon!
+Live Demo: [link](https://24h-story-clone.pages.dev/)
 
 ## How it was made:
 
