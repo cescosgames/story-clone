@@ -4,7 +4,7 @@ import Footer from './Footer';
 
 const BodyDisplay = () => {
   return (
-    <div className='w-full flex rounded-md h-[75%] flex-col p-10 gap-10'>
+    <div className='w-full flex rounded-md h-[75%] flex-col p-10 justify-start gap-5'>
 
         {/* <h1 className='italic'>image would go here</h1> */}
 
@@ -22,7 +22,6 @@ const BodyDisplay = () => {
           <p className='text-xs'>You can view the entire project on Github by clicking the Github icon above</p>
           <p className='text-xs'>The repository features information on the original assignment, and explanation behind the project</p>
           <p className='text-xs'>Thanks for checking this project out and feel free to reach out with any questions</p>
-          <p> - Cesco </p>
         </div>
 
         {/* <img src={demoPic} alt="" className='w-full h-full object-cover rounded-t-sm'/>
